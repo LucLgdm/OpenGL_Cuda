@@ -1,0 +1,56 @@
+🚀 Step 1 – Rendering Setup
+
+Use modern OpenGL (VBO/VAO + shaders).
+
+Represent the grid as a texture where each cell is: alive = white pixel, dead = black pixel.
+
+Render this texture onto a simple fullscreen quad.
+👉 This separates simulation (CPU) from rendering (GPU).
+
+🎮 Step 2 – Basic Controls
+
+Camera navigation:
+
+Zoom (mouse wheel).
+
+Panning (arrow keys or WASD).
+
+Automatic "glider follow": compute its bounding box and center the camera on it.
+
+🧮 Step 3 – Game of Life Simulation
+
+Start with a CPU implementation (2D arrays or a hashset for live cells).
+
+Optimization: use a set of live cell coordinates instead of a massive array → makes it easier to handle an infinite grid.
+
+Later: move to a compute shader or CUDA for performance.
+
+🖌️ Step 4 – Drawing Menu (Pattern Editor)
+
+Integrate ImGui (great for in-OpenGL UI).
+
+Tools you could add:
+
+Brush (add cells).
+
+Eraser (remove cells).
+
+Quick loading of known patterns (glider, pulsar, Gosper gun…).
+
+Mouse-click placement of cells directly on the grid.
+
+🌍 Step 5 – Advanced Features
+
+Infinite scroll: camera can move anywhere with no grid limit.
+
+Spaceship tracking: detect gliders (pattern recognition).
+
+Export/import patterns in .rle (standard Life file format).
+
+🔮 Step 6 – Possible Extensions
+
+Switch simulation to CUDA or compute shader for acceleration.
+
+Add a "3D view": each generation rendered as a layer in time (gliders appear as diagonals in 3D).
+
+Support custom rules (Life-like cellular automata).

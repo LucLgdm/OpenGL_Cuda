@@ -35,7 +35,7 @@ Check tasks as you complete them!
 
 ### 🖼 OpenGL (7 steps)
 
-- [ ] 🎨 Step 1 — Window & Hello Triangle
+- [x] 🎨 Step 1 — Window & Hello Triangle
 - [ ] 🎨 Step 2 — Vertex Colors & Shaders
 - [ ] 🎨 Step 3 — Transformations (Translation, Rotation, Scaling)
 - [ ] 🎨 Step 4 — Textures & UV Mapping

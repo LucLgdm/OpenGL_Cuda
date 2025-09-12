@@ -19,6 +19,8 @@ It is designed to build a strong foundation for **real-time graphics**, **GPU si
 OpenGl/       → OpenGL roadmap & projects
   ├── README.md        → detailed OpenGL roadmap
   └── GameOfLife/      → sample project (cellular automaton)
+  └── Step_1		   → first step of the journey
+  └── Step_2		   → second step of the journey
 Cuda/         → CUDA roadmap & exercises
   └── README.md        → detailed CUDA roadmap
 Fusion/       → OpenGL + CUDA interop roadmap
@@ -47,7 +49,7 @@ Check tasks as you complete them!
 
 ### ⚡ CUDA (6 steps)
 
-- [ ] 🚀 Step 1 — Hello CUDA (Threads, Blocks, Grids)
+- [x] 🚀 Step 1 — Hello CUDA (Threads, Blocks, Grids)
 - [ ] 🚀 Step 2 — Vector Addition & Memory Transfers
 - [ ] 🚀 Step 3 — 2D Grid / Game of Life on GPU
 - [ ] 🚀 Step 4 — Memory Hierarchy & Optimization

@@ -4,7 +4,7 @@
 //  AUTHOR     : Luc <lucdemercey@gmail.com>
 //  CREATED    : 2025-09-12
 //  UPDATED    : 2025-09-12
-//  DESCRIPTION: Makefile for Hello CUDA
+//  DESCRIPTION: Makefile for Vector addition CUDA
 // ============================================================================
 
 # Compiler

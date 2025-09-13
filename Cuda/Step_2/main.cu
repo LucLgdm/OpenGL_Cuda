@@ -12,9 +12,9 @@ using namespace std;
 
 #include <cuda_runtime.h>
 
-__global__ addVector(const float *A, const float *B, float *C, int N) {
+__global__ void addVector(const float *A, const float *B, float *C, int N) {
 	int idx = blockIdx.x * blockDim.x + threadIdx.x;
-	if (ids < N)
+	if (idx < N)
 		C[idx] = A[idx] + B[idx]; 
 }
 
@@ -23,9 +23,9 @@ int main() {
 	size_t size = N * sizeof(float);
 
 	// CPU Memory, h for host
-	float *h_A = new float[N];
-	float *h_B = new float[N];
-	float *h_C = new float[N];
+	float *h_A = (float *)malloc(size);
+	float *h_B = (float *)malloc(size);
+	float *h_C = (float *)malloc(size);
 
 	 // Initialize vectors
 	for (int i = 0; i < N; ++i) {
@@ -35,9 +35,9 @@ int main() {
 
 	// GPU Memory, d for device
 	float *d_A, *d_B, *d_C;
-	cudamalloc(d_A, size);
-	cudamalloc(d_B, size);
-	cudamalloc(d_C, size);
+	cudaMalloc((void **)&d_A, size);
+	cudaMalloc((void **)&d_B, size);
+	cudaMalloc((void **)&d_C, size);
 
 	// Copy from CPU to GPU
 	cudaMemcpy(d_A, h_A, size, cudaMemcpyHostToDevice);
@@ -52,7 +52,7 @@ int main() {
 	cudaDeviceSynchronize();
 
 	// Copy memory from GPU to CPU
-	cudaMemcpy(h_C, d_C, size, cudaMemcpyDeviceToHost)
+	cudaMemcpy(h_C, d_C, size, cudaMemcpyDeviceToHost);
 
 	// Check result
 	cout << "h_C[0] = " << h_C[0] << ", h_c[N - 1] = " << h_C[N - 1] << endl;

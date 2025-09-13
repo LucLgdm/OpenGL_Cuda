@@ -11,13 +11,13 @@
 NVCC = nvcc
 
 # Flags (tu peux ajouter -G pour le debug, -O2 pour l'optimisation)
-FLAGS = -arch=sm_75
+FLAGS = -arch=sm_50
 
 # Source files
 SRC = main.cu
 
 # Output executable
-NAME = hello_cuda
+NAME = addition
 
 all: $(NAME)
 

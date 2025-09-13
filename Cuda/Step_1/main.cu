@@ -8,6 +8,7 @@
 // ============================================================================
 
 #include <cuda_runtime.h>
+#include <stdio.h>
 
 /*****************************************************
  * A thread is a little task exec uted on a Cuda Core
@@ -38,5 +39,6 @@ int main() {
 	// 2 block of 4 threads are involved
 	helloFromGPU<<<2, 4>>>();
 	cudaDeviceSynchronize(); // wait for the end of the kernel
+
 	return 0;
 }

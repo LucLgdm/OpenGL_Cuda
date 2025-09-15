@@ -19,7 +19,7 @@ __global__ void addVector(const float *A, const float *B, float *C, int N) {
 }
 
 int main() {
-	int N = 1 << 20; // one million elements
+	int N = 1 << 5; // one million elements
 	size_t size = N * sizeof(float);
 
 	// CPU Memory, h for host
@@ -29,7 +29,7 @@ int main() {
 
 	 // Initialize vectors
 	for (int i = 0; i < N; ++i) {
-		h_A[i] = i * 0.5f;
+		h_A[i] = i * 2.0f;
 		h_B[i] = i * 2.0f;
 	}
 

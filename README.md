@@ -39,7 +39,7 @@ Check tasks as you complete them!
 
 - [x] 🎨 Step 1 — Window & Hello Triangle
 - [x] 🎨 Step 2 — Vertex Colors & Shaders
-- [ ] 🎨 Step 3 — Transformations (Translation, Rotation, Scaling)
+- [x] 🎨 Step 3 — Transformations (Translation, Rotation, Scaling)
 - [ ] 🎨 Step 4 — Textures & UV Mapping
 - [ ] 🎨 Step 5 — Camera & Interaction (WASD + Mouse)
 - [ ] 🎨 Step 6 — Lighting & Materials (Phong Shading)

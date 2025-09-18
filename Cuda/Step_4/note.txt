@@ -1,0 +1,57 @@
+Réduction (sum)
+
+Somme de tous les éléments d’un tableau (utiliser d’abord la mémoire globale, puis optimiser avec la mémoire partagée).
+
+Variante : calcul du maximum ou moyenne.
+
+Produit scalaire (dot product)
+
+Deux vecteurs A et B → résultat scalaire sum(A[i]*B[i]).
+
+Bon exercice pour combiner parallélisme + réduction.
+
+Transpose de matrice
+
+Échanger les lignes et colonnes d’une matrice N×N.
+
+Commencer avec mémoire globale simple, puis l’optimiser avec tiling en mémoire partagée (évite les accès non coalescés).
+
+Multiplication Hadamard (élément par élément)
+
+Simple C[i][j] = A[i][j] * B[i][j].
+
+Sert à bien comprendre mapping (row, col) ↔ threadIdx.
+
+🔹 Exercices intermédiaires
+
+Histogramme
+
+À partir d’un tableau d’entiers (par ex. entre 0 et 255), compter le nombre d’occurrences de chaque valeur.
+
+Difficulté : plusieurs threads veulent incrémenter la même case → introduction des atomic operations.
+
+Convolution 2D (filtrage image)
+
+Appliquer un petit kernel (3×3 par exemple) sur une matrice qui représente une image.
+
+Introduit la notion de fenêtres glissantes et de dépendances locales.
+
+Prefix sum (scan)
+
+Calcul des préfixes cumulatifs (ex : [1,2,3,4] → [1,3,6,10]).
+
+Sert beaucoup en algorithmique parallèle.
+
+🔹 Exercices visuels (motivation GPU 😄)
+
+Julia / Mandelbrot set
+
+Générer une fractale en parallèle : un thread = un pixel.
+
+Très bon pour pratiquer grilles 2D + mapping (x, y) vers coordonnées image.
+
+Ray casting 2D simple
+
+Chaque thread calcule la couleur d’un pixel en fonction de la direction d’un rayon.
+
+Une première approche avant un vrai ray tracer CUDA.

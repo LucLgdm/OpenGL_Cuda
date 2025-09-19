@@ -3,7 +3,7 @@
 //  PROJECT    : GPU Rendering Playground
 //  AUTHOR     : Luc <lucdemercey@gmail.com>
 //  CREATED    : 2025-09-18
-//  UPDATED    : 2025-09-18
+//  UPDATED    : 2025-09-19
 //  DESCRIPTION: Step 4 OpenGL - Textures & UV Mapping
 // ============================================================================
 
@@ -91,7 +91,8 @@ int main() {
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 
-	unsigned int shaderProgram = createShaderProgram();
+	// unsigned int shaderProgram = createShaderProgram();
+	unsigned int shaderProgram = createShaderProgram2();
 	vector<Shape> shapes;
 	vector<Color> colors;
 
@@ -99,15 +100,18 @@ int main() {
 	colors.push_back({0.0f, 1.0f, 0.0f});
 	colors.push_back({0.0f, 0.0f, 1.0f});
 	
-	Triangle tri = createTriangle("triangle", 0.3f);
+	// Triangle tri = createTriangle("triangle", 0.3f);
 	Square sq   = createSquare("carre", 0.4f);
 	Circle earth = createCircle("earth", colors[2], 0.2f);
-	Circle moon = createCircle("moon", colors[1], 0.2f);
-	Circle moon2 = createCircle("moon2", colors[0], 0.2f);
-	shapes.push_back(sq.shape);
-	shapes.push_back(earth.shape); shapes.push_back(moon.shape); shapes.push_back(moon2.shape);
+	// Circle moon = createCircle("moon", colors[1], 0.2f);
+	// Circle moon2 = createCircle("moon2", colors[0], 0.2f);
+	// shapes.push_back(sq.shape);
 	// shapes.push_back(tri.shape);
-	renderLoop(window, shapes, shaderProgram);
+	shapes.push_back(earth.shape);
+	// shapes.push_back(moon.shape); shapes.push_back(moon2.shape);
+	
+	// renderLoop(window, shapes, shaderProgram);
+	renderLoop2(window, shapes, shaderProgram);
 
 	cleanup(shapes, shaderProgram, window);
 	return 0;

@@ -11,16 +11,16 @@
 #include "stb_image.h"
 #include "Render.hpp"
 
-void renderShapes(const std::vector<Shape> &shapes, unsigned int shaderProgram) {
-	glUseProgram(shaderProgram);
-	for (const auto &shape : shapes) {
-		glBindVertexArray(shape.VAO);
-		if (shape.indexCount)
-			glDrawElements(GL_TRIANGLES, shape.indexCount, GL_UNSIGNED_INT, 0);
-		else
-			glDrawArrays(GL_TRIANGLE_FAN, 0, shape.vertexCount);
-	}
-}
+// void renderShapes(const std::vector<Shape> &shapes, unsigned int shaderProgram) {
+// 	glUseProgram(shaderProgram);
+// 	for (const auto &shape : shapes) {
+// 		glBindVertexArray(shape.VAO);
+// 		if (shape.indexCount)
+// 			glDrawElements(GL_TRIANGLES, shape.indexCount, GL_UNSIGNED_INT, 0);
+// 		else
+// 			glDrawArrays(GL_TRIANGLE_FAN, 0, shape.vertexCount);
+// 	}
+// }
 
 
 void renderLoop(GLFWwindow* window, const std::vector<Shape> &shapes, unsigned int shaderProgram) {
@@ -89,6 +89,70 @@ void renderLoop(GLFWwindow* window, const std::vector<Shape> &shapes, unsigned i
 	}
 }
 
+void renderLoop2(GLFWwindow* window, const std::vector<Shape> &shapes, unsigned int shaderProgram) {
+	unsigned int texture1 = loadTexture("earth.png"); // à faire une seule fois
+	unsigned int texture2 = loadTexture("clouds.png"); // à faire une seule fois
+	glUseProgram(shaderProgram);
+	glUniform1i(glGetUniformLocation(shaderProgram, "texture1"), 0);
+	glUniform1i(glGetUniformLocation(shaderProgram, "texture2"), 1);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture1);
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, texture2);
+	
+	float alpha = 0.0f;
+	float dir = 1.0f;
+	int alphaLoc = glGetUniformLocation(shaderProgram, "alpha");
+
+	float offsetScale = 0.2f, dir2 = 1.0f;
+
+	while (!glfwWindowShouldClose(window)) {
+		glClearColor(0.3f, 0.2f, 0.23f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		alpha += 0.005 * dir;
+		if (alpha >= 1.0f && dir > 0)
+			dir = -1.0f;
+		if (alpha <= 0.0f && dir < 0)
+			dir = 1.0f;
+
+		alpha = std::clamp(alpha, 0.0f, 1.0f);
+		glUseProgram(shaderProgram);
+		glUniform1f(alphaLoc, alpha);
+		
+		offsetScale += 0.01 * dir2;
+		if (offsetScale >= 2.0f && dir2 > 0)
+			dir2 = -1.0f;
+		if (offsetScale <= 0.2f && dir2 < 0)
+			dir2 = 1.0f;
+
+		Mat4 transform = identity();
+		Mat4 r, s;
+		// Draw shapes
+		for (const auto &shape : shapes) {
+			glBindVertexArray(shape.VAO);
+
+			
+			
+			s = scale(offsetScale, offsetScale, 1.0f);
+			r = rotateZ((float)glfwGetTime());
+			transform = multiply(s, r);
+			unsigned int transformLoc = glGetUniformLocation(shaderProgram, "transform");
+			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, transform.m);
+
+			if (shape.indexCount)
+				glDrawElements(GL_TRIANGLES, shape.indexCount, GL_UNSIGNED_INT, 0);
+			else
+				glDrawArrays(GL_TRIANGLE_FAN, 0, shape.vertexCount);
+		}
+
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+	}
+}
+
 
 unsigned int createShaderProgram() {
 	const char* vertexShaderSource = R"(
@@ -108,7 +172,7 @@ unsigned int createShaderProgram() {
 		}
 		)";
 
-    const char* fragmentShaderSource = R"(
+	const char* fragmentShaderSource = R"(
 		#version 330 core
 		in vec3 vertexColor;  // from vertex shader
 		in vec2 texCoord;
@@ -125,33 +189,95 @@ unsigned int createShaderProgram() {
 				baseColor = texture(texture2, texCoord); // * baseColor; Pour avoir la couleur en plus...
 			FragColor = baseColor;
 		}
-    )";
+	)";
 
 	/**********************************************************
 	 * Writes the shader code and compiles it
 	 **********************************************************/
-    unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
-    glCompileShader(vertexShader);
+	unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
+	glCompileShader(vertexShader);
 
-    unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
-    glCompileShader(fragmentShader);
+	unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
+	glCompileShader(fragmentShader);
 
 	/**********************************************************
 	 * Creates a shader program, attach shaders and link them
 	 **********************************************************/
-    unsigned int shaderProgram = glCreateProgram();
-    glAttachShader(shaderProgram, vertexShader);
-    glAttachShader(shaderProgram, fragmentShader);
-    glLinkProgram(shaderProgram);
+	unsigned int shaderProgram = glCreateProgram();
+	glAttachShader(shaderProgram, vertexShader);
+	glAttachShader(shaderProgram, fragmentShader);
+	glLinkProgram(shaderProgram);
 
-    glDeleteShader(vertexShader);
-    glDeleteShader(fragmentShader);
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
 
-    return shaderProgram;
+	return shaderProgram;
 }
 
+unsigned int createShaderProgram2() {
+	const char* vertexShaderSource = R"(
+		#version 330 core
+		layout (location = 0) in vec2 aPos;      // 2 floats
+		layout (location = 1) in vec3 aColor;    // 3 floats
+		layout (location = 2) in vec2 aTexCoord; // 2 floats
+
+		out vec3 vertexColor;
+		out vec2 texCoord;
+
+		uniform mat4 transform;
+
+		void main()
+		{
+			gl_Position = transform * vec4(aPos, 0.0, 1.0);
+			vertexColor = aColor;
+			texCoord = aTexCoord;
+		}
+		)";
+
+	const char* fragmentShaderSource = R"(
+		#version 330 core
+		in vec3 vertexColor;
+		in vec2 texCoord;
+		out vec4 FragColor;
+
+		uniform sampler2D texture1;
+		uniform sampler2D texture2;
+		uniform float alpha;
+
+		void main()
+		{
+			vec4 tex1 = texture(texture1, texCoord);
+			vec4 tex2 = texture(texture2, texCoord);
+			FragColor = mix(tex1, tex2, alpha); // mélange 50/50
+		}
+	)";
+
+	/**********************************************************
+	 * Writes the shader code and compiles it
+	 **********************************************************/
+	unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
+	glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
+	glCompileShader(vertexShader);
+
+	unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
+	glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
+	glCompileShader(fragmentShader);
+
+	/**********************************************************
+	 * Creates a shader program, attach shaders and link them
+	 **********************************************************/
+	unsigned int shaderProgram = glCreateProgram();
+	glAttachShader(shaderProgram, vertexShader);
+	glAttachShader(shaderProgram, fragmentShader);
+	glLinkProgram(shaderProgram);
+
+	glDeleteShader(vertexShader);
+	glDeleteShader(fragmentShader);
+
+	return shaderProgram;
+}
 
 unsigned int loadTexture(const char* path) {
 	unsigned int textureID;

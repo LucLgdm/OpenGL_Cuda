@@ -3,7 +3,7 @@
 //  PROJECT    : GPU Rendering Playground
 //  AUTHOR     : Luc <lucdemercey@gmail.com>
 //  CREATED    : 2025-09-18
-//  UPDATED    : 2025-09-18
+//  UPDATED    : 2025-09-19
 //  DESCRIPTION: Step 4 OpenGL - Textures & UV Mapping
 // ============================================================================
 
@@ -25,8 +25,10 @@ void renderShapes(const std::vector<Shape> &shapes, unsigned int shaderProgram) 
 
 void renderLoop(GLFWwindow* window, const std::vector<Shape> &shapes, unsigned int shaderProgram) {
 	unsigned int texture = loadTexture("image.png"); // à faire une seule fois
+	unsigned int texture2 = loadTexture("coin-1.png"); // à faire une seule fois
 	glUseProgram(shaderProgram);
-	glUniform1i(glGetUniformLocation(shaderProgram, "ourTexture"), 0);
+	glUniform1i(glGetUniformLocation(shaderProgram, "texture1"), 0);
+	glUniform1i(glGetUniformLocation(shaderProgram, "texture2"), 1);
 
 	while (!glfwWindowShouldClose(window)) {
 		glClearColor(0.4f, 0.3f, 0.2f, 1.0f);
@@ -40,9 +42,10 @@ void renderLoop(GLFWwindow* window, const std::vector<Shape> &shapes, unsigned i
 			float angle;
 			Mat4 t, s, r;
 			if (shape._name == "carre") {
-				glActiveTexture(GL_TEXTURE0);
-				glBindTexture(GL_TEXTURE_2D, texture);
-				glUniform1i(glGetUniformLocation(shaderProgram, "useTexture"), 1);
+				glActiveTexture(GL_TEXTURE1);
+				glBindTexture(GL_TEXTURE_2D, texture2);
+				glUniform1i(glGetUniformLocation(shaderProgram, "useTexture2"), 1);
+				glUniform1i(glGetUniformLocation(shaderProgram, "useTexture1"), 0);
 				t = translate(0.5f, 0.0f, 0.0f);
 				s = scale(0.3f, 0.3f, 0.0f);
 				r = rotateZ((float)glfwGetTime());
@@ -50,13 +53,14 @@ void renderLoop(GLFWwindow* window, const std::vector<Shape> &shapes, unsigned i
 				transform = multiply(r, transform);
 			}else{
 				glBindTexture(GL_TEXTURE_2D, 0); // Desactive la texture
-				glUniform1i(glGetUniformLocation(shaderProgram, "useTexture"), 0);
+				glUniform1i(glGetUniformLocation(shaderProgram, "useTexture2"), 0);
 			}
 
 			if (shape._name == "moon" || shape._name == "moon2") {	
 				glActiveTexture(GL_TEXTURE0);
 				glBindTexture(GL_TEXTURE_2D, texture);
-				glUniform1i(glGetUniformLocation(shaderProgram, "useTexture"), 1);	
+				glUniform1i(glGetUniformLocation(shaderProgram, "useTexture1"), 1);
+				glUniform1i(glGetUniformLocation(shaderProgram, "useTexture2"), 0);
 				if (shape._name == "moon"){
 					t = translate(0.4f, 0.0f, 0.0f); // éloignement du centre
 					angle = (float)glfwGetTime();
@@ -83,7 +87,6 @@ void renderLoop(GLFWwindow* window, const std::vector<Shape> &shapes, unsigned i
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
-
 }
 
 
@@ -111,13 +114,15 @@ unsigned int createShaderProgram() {
 		in vec2 texCoord;
 		out vec4 FragColor;
 
-		uniform sampler2D ourTexture;
-		uniform bool useTexture;
+		uniform sampler2D texture1, texture2;
+		uniform bool useTexture1, useTexture2;
 
 		void main() {
 			vec4 baseColor = vec4(vertexColor, 1.0);
-			if (useTexture)
-				baseColor = texture(ourTexture, texCoord); // * baseColor; Pour avoir la couleur en plus...
+			if (useTexture1)
+				baseColor = texture(texture1, texCoord); // * baseColor; Pour avoir la couleur en plus...
+			if (useTexture2)
+				baseColor = texture(texture2, texCoord); // * baseColor; Pour avoir la couleur en plus...
 			FragColor = baseColor;
 		}
     )";

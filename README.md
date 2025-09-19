@@ -21,8 +21,12 @@ OpenGl/       → OpenGL roadmap & projects
   └── GameOfLife/      → sample project (cellular automaton)
   └── Step_1		   → first step of the journey
   └── Step_2		   → second step of the journey
+  ...
 Cuda/         → CUDA roadmap & exercises
   └── README.md        → detailed CUDA roadmap
+  └── Step_1		   → first step of the journey
+  └── Step_2		   → second step of the journey
+  ...
 Fusion/       → OpenGL + CUDA interop roadmap
   └── README.md        → detailed interop roadmap
 
@@ -40,12 +44,12 @@ Check tasks as you complete them!
 - [x] 🎨 Step 1 — Window & Hello Triangle
 - [x] 🎨 Step 2 — Vertex Colors & Shaders
 - [x] 🎨 Step 3 — Transformations (Translation, Rotation, Scaling)
-- [ ] 🎨 Step 4 — Textures & UV Mapping
-- [ ] 🎨 Step 5 — Camera & Interaction (WASD + Mouse)
+- [x] 🎨 Step 4 — Textures & UV Mapping
+- [x] 🎨 Step 5 — Camera & Interaction (WASD + Mouse)
 - [ ] 🎨 Step 6 — Lighting & Materials (Phong Shading)
 - [ ] 🎨 Step 7 — 3D Objects & Projection
 
----
+---ew
 
 ### ⚡ CUDA (6 steps)
 

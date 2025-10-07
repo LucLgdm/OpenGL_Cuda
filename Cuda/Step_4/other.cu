@@ -42,6 +42,10 @@ __global__ void sumElementShared(const float *A, float *partial, int n) {
 		partial[blockIdx.x] = cache[0];
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 49393d359c11bc542dd3e2e1d7930704abfd812a
 int main() {
     const int N = 1 << 10;  // 1024 éléments
     const int blockSize = 256;
@@ -85,9 +89,12 @@ int main() {
     std::cout << "Somme (atomicAdd) : " << h_result_atomic << std::endl;
     std::cout << "Somme (shared memory) : " << h_result_shared << std::endl;
 
+<<<<<<< HEAD
 
     // Kernel 2 : dor product
 
+=======
+>>>>>>> 49393d359c11bc542dd3e2e1d7930704abfd812a
     // Nettoyage
     delete[] h_A;
     delete[] h_partial;

@@ -3,7 +3,7 @@
 //  PROJECT    : GPU Rendering Playground
 //  AUTHOR     : Luc <lucdemercey@gmail.com>
 //  CREATED    : 2025-09-18
-//  UPDATED    : 2025-09-19
+//  UPDATED    : 2025-10-07
 //  DESCRIPTION: Step 4 OpenGL - Textures & UV Mapping
 // ============================================================================
 
@@ -91,7 +91,7 @@ void renderLoop(GLFWwindow* window, const std::vector<Shape> &shapes, unsigned i
 
 void renderLoop2(GLFWwindow* window, const std::vector<Shape> &shapes, unsigned int shaderProgram) {
 	unsigned int texture1 = loadTexture("earth.png"); // à faire une seule fois
-	unsigned int texture2 = loadTexture("clouds.png"); // à faire une seule fois
+	unsigned int texture2 = loadTexture("coin-1.png"); // à faire une seule fois
 	glUseProgram(shaderProgram);
 	glUniform1i(glGetUniformLocation(shaderProgram, "texture1"), 0);
 	glUniform1i(glGetUniformLocation(shaderProgram, "texture2"), 1);

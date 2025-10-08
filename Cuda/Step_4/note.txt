@@ -1,57 +1,79 @@
-Réduction (sum)
+1. Matrix Transpose Shared
 
-Somme de tous les éléments d’un tableau (utiliser d’abord la mémoire globale, puis optimiser avec la mémoire partagée).
+Objectif : comprendre l’accès coalescent à la mémoire globale.
+Principe :
+	Transpose une matrice carrée A en B en utilisant la shared memory pour réduire les accès non coalescents.
 
-Variante : calcul du maximum ou moyenne.
+Difficultés à surmonter :
+	Charger les blocs de A dans la shared memory de manière coalescente.
+	Utiliser un padding (TILE_SIZE+1) pour éviter les bank conflicts.
+	Synchroniser les threads avant d’écrire dans B.
 
-Produit scalaire (dot product)
+💡 C’est l’un des exercices les plus classiques pour comprendre l’optimisation mémoire dans CUDA.
 
-Deux vecteurs A et B → résultat scalaire sum(A[i]*B[i]).
+2. Matrix Vector Multiplication (Shared Memory)
 
-Bon exercice pour combiner parallélisme + réduction.
+Objectif : réutiliser les données de la matrice efficacement.
+Principe :
+	Multiplie une matrice A (N×N) par un vecteur x (N×1) pour produire y = A·x.
 
-Transpose de matrice
+À faire :
+	Chaque bloc traite une portion de A et de x.
+	Charger les morceaux de x dans la shared memory pour éviter de les relire à chaque ligne.
+	Réduire partiellement dans la shared memory avant d’écrire le résultat global.
 
-Échanger les lignes et colonnes d’une matrice N×N.
+3. Vector Dot Product (Multi-Block Reduction)
 
-Commencer avec mémoire globale simple, puis l’optimiser avec tiling en mémoire partagée (évite les accès non coalescés).
+Tu as déjà fait la version intra-bloc.
+Fais maintenant la version multi-bloc, où :
+	chaque bloc écrit sa somme partielle dans un tableau partial[],
+	puis un second kernel ou une boucle CPU fait la réduction finale.
 
-Multiplication Hadamard (élément par élément)
+Variante : fais-le entièrement sur GPU avec deux kernels chaînés.
 
-Simple C[i][j] = A[i][j] * B[i][j].
+4. Element-Wise Matrix Operations
 
-Sert à bien comprendre mapping (row, col) ↔ threadIdx.
+Objectif : exploiter la shared memory comme cache local.
+Principe :
+	Fais des opérations élément par élément :
+	C[i][j] = sin(A[i][j]) + cos(B[i][j]);
+mais en stockant des sous-blocs de A et B dans la shared memory avant d’appliquer la transformation.
 
-🔹 Exercices intermédiaires
+Tu apprendras à utiliser la shared memory non seulement pour le produit mais aussi pour des pipelines de calcul.
 
-Histogramme
+5. 2D Convolution (Shared Memory)
 
-À partir d’un tableau d’entiers (par ex. entre 0 et 255), compter le nombre d’occurrences de chaque valeur.
+Objectif : comprendre le data reuse spatial.
+Principe :
+	Applique une convolution 2D simple (filtre 3×3 ou 5×5) sur une image.
 
-Difficulté : plusieurs threads veulent incrémenter la même case → introduction des atomic operations.
+Étapes :
+	Chaque bloc charge une tuile de l’image + halo dans la shared memory.
+	Chaque thread applique le filtre à son pixel.
+	Nécessite des calculs d’offset précis et des bordures.
 
-Convolution 2D (filtrage image)
+💡 C’est une transition idéale vers les kernels plus “avancés” du Step 5 (pipeline, overlapping, etc.).
 
-Appliquer un petit kernel (3×3 par exemple) sur une matrice qui représente une image.
+6. Matrix Multiplication Benchmark
 
-Introduit la notion de fenêtres glissantes et de dépendances locales.
+Objectif : profiler les gains mémoire.
+Principe :
+	Compare les trois versions de la multiplication de matrices :
 
-Prefix sum (scan)
+	1. naive (accès global uniquement),
+	2. shared memory (ton kernel actuel),
+	3. version mixte (avec const __restrict__ ou mémoire constante pour une des matrices).
 
-Calcul des préfixes cumulatifs (ex : [1,2,3,4] → [1,3,6,10]).
+But : mesurer l’impact des accès coalescents et de la shared memory.
 
-Sert beaucoup en algorithmique parallèle.
+7. Reduction with Shared Memory (Generic Version)
 
-🔹 Exercices visuels (motivation GPU 😄)
+Objectif : généraliser les réductions.
+Principe :
+	Écris un kernel de réduction générique :
+	template<typename T, typename Op>
+	__global__ void reduceShared(const T* in, T* out, int n, Op op);
+et passe-lui par exemple op = Add(), op = Max(), op = Mul()...
 
-Julia / Mandelbrot set
-
-Générer une fractale en parallèle : un thread = un pixel.
-
-Très bon pour pratiquer grilles 2D + mapping (x, y) vers coordonnées image.
-
-Ray casting 2D simple
-
-Chaque thread calcule la couleur d’un pixel en fonction de la direction d’un rayon.
-
-Une première approche avant un vrai ray tracer CUDA.
+Tu découvriras ici la pattern classique d’un reduction kernel moderne, utile pour les opérations de sommation,
+max pooling, etc.

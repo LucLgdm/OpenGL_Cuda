@@ -15,17 +15,23 @@ FLAGS = -arch=sm_50
 
 # Source files
 SRC = main.cu
+SRC2 = main2D.cu
 
 # Output executable
-NAME = Matrix_shared
+NAME = 1D
+NAME2 = 2D
 
-all: $(NAME)
+all: $(NAME) $(NAME2)
 
 $(NAME): $(SRC)
 	$(NVCC) $(FLAGS) $^ -o $@
 
+$(NAME2): $(SRC2)
+	$(NVCC) $(FLAGS) $^ -o $@
+
 clean:
 	rm -f $(NAME)
+	rm -f $(NAME2)
 
 re: clean all
 

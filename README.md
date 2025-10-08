@@ -56,7 +56,7 @@ Check tasks as you complete them!
 - [x] 🚀 Step 1 — Hello CUDA (Threads, Blocks, Grids)
 - [x] 🚀 Step 2 — Vector Addition & Memory Transfers
 - [x] 🚀 Step 3 — 2D Grid / Game of Life on GPU
-- [ ] 🚀 Step 4 — Memory Hierarchy & Optimization
+- [x] 🚀 Step 4 — Memory Hierarchy & Optimization
 - [ ] 🚀 Step 5 — Advanced Kernels & Synchronization
 - [ ] 🚀 Step 6 — Mini-Project: Particle System or Simulation
 

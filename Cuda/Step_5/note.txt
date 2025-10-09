@@ -1,0 +1,73 @@
+1️⃣ Reduction multi-étapes avancée
+Objectif : aller au-delà de la simple réduction d’un tableau pour gérer des matrices 2D ou des vecteurs très longs.
+
+Exercice type :
+	Kernel générique avec template<typename T, typename Op> comme tu as fait pour la somme/max/mul.
+	Réduction en deux étapes : d’abord par bloc (shared memory), puis sur les résultats de blocs.
+
+Optionnel : utiliser des warp shuffle instructions (__shfl_down_sync) pour éviter certaines synchronisations.
+
+💡 Bonus : comparer performance avec atomicAdd pour des vecteurs très grands.
+
+2️⃣ Scan (Prefix Sum)
+
+Objectif : appliquer la réduction de manière cumulative.
+
+Principe :
+	Calculer prefixSum[i] = in[0] + in[1] + … + in[i].
+	Nécessite un scan up-sweep / down-sweep sur la shared memory.
+
+Pourquoi c’est Step 5 : le scan demande de synchroniser les threads dans et entre les blocs pour être correct et rapide.
+
+3️⃣ Histogramme avec shared memory
+
+Objectif : comprendre le data race et le partage de mémoire.
+
+Exercice type :
+	Construire un histogramme de valeurs entières.
+	Chaque bloc calcule un histogramme partiel dans la shared memory, puis on réduit vers la mémoire globale.
+
+Complications :
+	Utiliser atomicAdd pour réduire les conflits entre threads.
+
+Optimisation : histogramme par warp pour minimiser les atomics.
+
+4️⃣ Stencil / Convolution avancée
+
+Extension de ce que tu as fait en Step 4 (2D convolution) :
+	Ajouter plusieurs filtres dans pipeline, par exemple Gaussian → Sobel → Threshold.
+	Chaque kernel utilise la shared memory et la synchronisation pour traiter des tuiles.
+
+Optionnel : overlapping computation + memory copy pour améliorer la bande passante.
+
+5️⃣ Multi-kernel pipeline
+
+Objectif : apprendre à coordonner plusieurs kernels pour un workflow complexe.
+
+Exemple :
+	Étape 1 : remplir une texture d’intensité.
+	Étape 2 : appliquer un filtre ou un calcul de force pour chaque pixel.
+	Étape 3 : réduire ou cumuler les résultats.
+
+Ce que tu pratiques :
+	Synchronisation globale via la mémoire GPU.
+	Optimisation de la latence entre kernels.
+
+6️⃣ Atomic operations et warp-synchronous programming
+
+Expérimenter avec :
+	atomicAdd, atomicMax, atomicCAS.
+	__shfl_sync, __ballot_sync, etc.
+
+Exercice concret :
+	Calculer le maximum d’un vecteur ou le maximum par bloc sans écrire dans la mémoire globale à chaque thread.
+
+7️⃣ Simulation simple avec forces / interactions
+
+Avant de faire un vrai particle system OpenGL + CUDA, tu peux tester un mini-kernel :
+
+	Table de particules x, y, vx, vy.
+	Kernel qui calcule la force sur chaque particule selon une règle simple (gravité ou répulsion).
+	Écriture dans shared memory pour gérer les interactions locales.
+
+Objectif : se familiariser avec la logique d’un kernel qui dépend des valeurs des autres threads.

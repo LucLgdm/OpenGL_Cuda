@@ -1,4 +1,0 @@
-Vérifier les erreurs mémoire GPU	cuda-memcheck	cuda-memcheck ./prog
-Détecter les race conditions	cuda-memcheck --tool racecheck	cuda-memcheck --tool racecheck ./prog
-Vérifier les syncs de threads	cuda-memcheck --tool synccheck	cuda-memcheck --tool synccheck ./prog
-Profiler les performances	Nsight Compute / Nsight Systems	nsys profile ./prog

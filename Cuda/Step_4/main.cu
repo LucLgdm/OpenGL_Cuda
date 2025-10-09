@@ -10,6 +10,7 @@
 #include <iostream>
 using namespace std;
 
+#include <bits/stdc++.h>
 #include <cuda_runtime.h>
 
 __global__ void vectorAddShared(const float *A, const float *B, float *C, int n) {
@@ -101,8 +102,8 @@ int main() {
 		h_A[i] = 1.0f;
 		h_B[i] = (i % 2 == 0) ? 1.0f : 0.0f;
 	}
-	cout << "A = "; for(int i = 0; i < N; i++) { cout << h_A[i] <<  " "; } cout << endl;
-	cout << "B = "; for(int i = 0; i < N; i++) { cout << h_B[i] <<  " "; } cout << endl;
+	cout << "A     = "; for(int i = 0; i < N; i++) { cout << setw(3) << h_A[i] <<  " "; } cout << endl;
+	cout << "B     = "; for(int i = 0; i < N; i++) { cout << setw(3) << h_B[i] <<  " "; } cout << endl;
 
 	float *d_A, *d_B, *d_C, *d_partial, *d_result;  // AJOUT d_result
 	cudaMalloc((void **)&d_A, N * sizeof(float));
@@ -115,25 +116,27 @@ int main() {
 	cudaMemcpy(d_A, h_A, N * sizeof(float), cudaMemcpyHostToDevice);
 	cudaMemcpy(d_B, h_B, N * sizeof(float), cudaMemcpyHostToDevice);
 
+	cout << "Dot product with shared memory" << endl;
 	dotProduct<<<numBlocks, blocksize, blocksize * sizeof(float)>>>(d_A, d_B, d_partial, N);
 	cudaMemcpy(h_partial, d_partial, numBlocks * sizeof(float), cudaMemcpyDeviceToHost);
 
 	for (int i = 0; i < numBlocks; i++) {
 		h_result += h_partial[i];
 	}
-	cout << "Dot product = " << h_result << endl;
+	cout << "Result = " << h_result << endl << endl;
 
+	cout << "A + B with shared memory" << endl;
 	// Modifier les données
 	for(int i = 0; i < N; i++){
 		h_A[i] = 2 * i;
 		h_B[i] = 2 * i + 1;
 	}
-	cout << "A = ";
-	for(int i = 0; i < N; i++) cout << h_A[i] << " ";
+	cout << "A     = ";
+	for(int i = 0; i < N; i++) cout << setw(3) << h_A[i] << " ";
 	cout << endl;
 
-	cout << "B = ";
-	for(int i = 0; i < N; i++) cout << h_B[i] << " ";
+	cout << "B     = ";
+	for(int i = 0; i < N; i++) cout << setw(3) << h_B[i] << " ";
 	cout << endl;
 
 	// AJOUT : recopier les nouvelles données vers le GPU
@@ -145,9 +148,11 @@ int main() {
 	cudaMemcpy(h_C, d_C, size, cudaMemcpyDeviceToHost);
 	
 	cout << "A + B = ";
-	for(int i = 0; i < N; i++) cout << h_C[i] << " ";
+	for(int i = 0; i < N; i++) cout << setw(3) << h_C[i] << " ";
 	cout << endl;
 
+	cout << endl << "Sum of elements of :" << endl;
+	cout << "A     = "; for(int i = 0; i < N; i++) { cout << setw(3) << h_A[i] <<  " "; } cout << endl;
 	// Kernel 1 : somme avec atomicAdd
 	sumElement<<<numBlocks, blocksize>>>(d_A, N, d_result);  // FIX: blocksize
 	cudaMemcpy(&h_result_atomic, d_result, sizeof(float), cudaMemcpyDeviceToHost);
@@ -164,9 +169,9 @@ int main() {
 	// Affichage
 	float expected_sum = 0;
 	for(int i = 0; i < N; i++) expected_sum += h_A[i];
-	cout << "Somme attendue : " << expected_sum << endl;
-	cout << "Somme (atomicAdd) : " << h_result_atomic << endl;
-	cout << "Somme (shared memory) : " << h_result_shared << endl;
+	cout << "Somme attendue 		: " << expected_sum << endl;
+	cout << "Somme (atomicAdd) 	: " << h_result_atomic << endl;
+	cout << "Somme (shared memory) 	: " << h_result_shared << endl;
 
 	delete[] h_A; delete[] h_B; delete[] h_C; delete[] h_partial;
 	cudaFree(d_A); cudaFree(d_B); cudaFree(d_C); cudaFree(d_partial);

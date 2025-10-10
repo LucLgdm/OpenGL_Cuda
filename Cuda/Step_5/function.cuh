@@ -15,6 +15,8 @@ using namespace std;
 #include <bits/stdc++.h>
 #include <cuda_runtime.h>
 
+#define TILE_SIZE 16
+
 // Reduction operations
 
 struct Add {
@@ -48,10 +50,21 @@ __global__ void scanBlock(const int* input, int* output, int* blockSums, int siz
 // Histogramme avec shared memory
 
 void histogramme();
-__global__ void histogrammeShared(const unsigned char* input, int* histogram, int size, int numBins);
+__global__ void histNaive(const unsigned int *input, int *histogram, int size, int BIN_COUNT);
+__global__ void histShared(const unsigned int *input, int *histogram, int size, int BIN_COUNT);
+
+__inline__ __device__ int laneId();
+__inline__ __device__ int warpId();
+__global__ void histWarpShared(const unsigned int *input, int *histogram, int size, int BIN_COUNT);
 
 // Stencil / Convolution avancée
 
+void pipeline();
+void multiConvolution(const int width, const int height);
+void overlapping(const int width, const int height);
+__global__ void convolutionGeneric(const float*input, float *output, int width, int height,
+			const float *filter, int filterSize);
+__global__ void threshold_kernel(const float* input, float* output, int width, int height, float threshold);
 
 // Multi-kernel pipeline
 

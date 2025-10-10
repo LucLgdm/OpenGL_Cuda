@@ -14,7 +14,7 @@ NVCC = nvcc
 FLAGS = -arch=sm_50
 
 # Source files
-SRC = main.cpp reduction.cu scan.cu
+SRC = main.cpp reduction.cu scan.cu histogramme.cu Convolution.cu
 
 # Output executable
 NAME = Step_5
@@ -37,10 +37,10 @@ complete: $(NAME)
 # 	@echo "\033[34mProfile the performance with Nsight Compute\033[0m"
 # 	@nsys profile --stats=true ./$(NAME)
 
-clean:
+fclean:
 	@rm -f $(NAME)
 	@echo "\033[35mDelete $(NAME)\033[0m"
 
-re: clean all
+re: fclean all
 
 .PHONY: all clean re

@@ -34,13 +34,27 @@ struct Mul {
 	__device__ double identity() const { return 1.0f; }
 };
 
-void advancedReduction();
 template<typename T, typename Op>
-__global__ void reduceShared(const T* input, T* output, int size, Op op);
+__global__ void reduceShared(const T* input, T* output, int size, Op op) {
+	extern __shared__ T sdata[];
+	unsigned int tid = threadIdx.x;
+	unsigned int i = blockIdx.x * blockDim.x + threadIdx.x;
+	sdata[tid] = (i < size) ? input[i] : op.identity();
+	__syncthreads();
+
+	for (unsigned int s = blockDim.x / 2; s > 0; s >>= 1) {
+		if (tid < s) {
+			sdata[tid] = op(sdata[tid], sdata[tid + s]);
+		}
+		__syncthreads();
+	}
+	if (tid == 0) {
+		output[blockIdx.x] = sdata[0];
+	}
+}
 
 // Scan (Prefix Sum)
 
-void scan();
 void scanLonelyBlock();
 void scanMultiBlock();
 __global__ void scanOneBlock(const int* input, int* output, int size);
@@ -49,7 +63,6 @@ __global__ void scanBlock(const int* input, int* output, int* blockSums, int siz
 
 // Histogramme avec shared memory
 
-void histogramme();
 __global__ void histNaive(const unsigned int *input, int *histogram, int size, int BIN_COUNT);
 __global__ void histShared(const unsigned int *input, int *histogram, int size, int BIN_COUNT);
 
@@ -59,15 +72,15 @@ __global__ void histWarpShared(const unsigned int *input, int *histogram, int si
 
 // Stencil / Convolution avancée
 
-void pipeline();
 void multiConvolution(const int width, const int height);
 void overlapping(const int width, const int height);
-__global__ void convolutionGeneric(const float*input, float *output, int width, int height,
+__global__ void convolutionGeneric(const float *input, float *output, int width, int height,
 			const float *filter, int filterSize);
 __global__ void threshold_kernel(const float* input, float* output, int width, int height, float threshold);
 
 // Multi-kernel pipeline
 
+__global__ void generateIntensity(float *input, int width, int height);
 
 // Atomic operations et warp-synchronous programming
 

@@ -14,7 +14,7 @@ NVCC = nvcc
 FLAGS = -arch=sm_50
 
 # Source files
-SRC = main.cpp reduction.cu scan.cu histogramme.cu Convolution.cu
+SRC = main.cpp reduction.cu scan.cu histogramme.cu Convolution.cu multikernel.cu
 
 # Output executable
 NAME = Step_5

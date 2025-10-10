@@ -8,6 +8,7 @@
 // ============================================================================
 
 #include "function.cuh"
+#include "functionCPU.hpp"
 
 __global__ void convolutionGeneric(const float*input, float *output, int width, int height,
 			const float *filter, int filterSize) {

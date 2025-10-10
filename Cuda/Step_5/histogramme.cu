@@ -8,6 +8,7 @@
 // ============================================================================
 
 #include "function.cuh"
+#include "functionCPU.hpp"
 
 // Histogramme naif, utile pour petit nombre de valeurs
 __global__ void histNaive(const unsigned int *input, int *histogram, int size, int BIN_COUNT) {

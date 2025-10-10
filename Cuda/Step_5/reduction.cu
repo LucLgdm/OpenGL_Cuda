@@ -8,25 +8,8 @@
 // ============================================================================
 
 #include "function.cuh"
+#include "functionCPU.hpp"
 
-template<typename T, typename Op>
-__global__ void reduceShared(const T* input, T* output, int size, Op op) {
-	extern __shared__ T sdata[];
-	unsigned int tid = threadIdx.x;
-	unsigned int i = blockIdx.x * blockDim.x + threadIdx.x;
-	sdata[tid] = (i < size) ? input[i] : op.identity();
-	__syncthreads();
-
-	for (unsigned int s = blockDim.x / 2; s > 0; s >>= 1) {
-		if (tid < s) {
-			sdata[tid] = op(sdata[tid], sdata[tid + s]);
-		}
-		__syncthreads();
-	}
-	if (tid == 0) {
-		output[blockIdx.x] = sdata[0];
-	}
-}
 
 void advancedReduction() {
 	const int size = 1 << 20; // 1M elements

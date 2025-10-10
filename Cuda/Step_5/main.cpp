@@ -7,7 +7,7 @@
 //  DESCRIPTION: Step 5 Cuda - Going further
 // ============================================================================
 
-#include "function.cuh"
+#include "functionCPU.hpp"
 
 int main() {
 	cout << "\033[34m----------Advanced multi-step reduction----------\033[0m" << endl;
@@ -18,5 +18,7 @@ int main() {
 	histogramme();
 	cout << endl << "\033[34m----------Pipeline convolution----------\033[0m" << endl;
 	pipeline();
+	cout << endl << "\033[34m----------Multikernel Pipeline----------\033[0m" << endl;
+	multiKernelPipeline();
 	return 0;
 }

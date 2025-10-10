@@ -8,6 +8,7 @@
 // ============================================================================
 
 #include "function.cuh"
+#include "functionCPU.hpp"
 
 __global__ void scanOneBlock(const int* input, int* output, int size) {
 	extern __shared__ int temp[];

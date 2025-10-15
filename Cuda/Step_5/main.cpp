@@ -3,7 +3,7 @@
 //  PROJECT    : GPU Rendering Playground
 //  AUTHOR     : Luc <lucdemercey@gmail.com>
 //  CREATED    : 2025-10-09
-//  UPDATED    : 2025-10-10
+//  UPDATED    : 2025-10-15
 //  DESCRIPTION: Step 5 Cuda - Going further
 // ============================================================================
 
@@ -18,7 +18,9 @@ int main() {
 	histogramme();
 	cout << endl << "\033[34m----------Pipeline convolution----------\033[0m" << endl;
 	pipeline();
-	cout << endl << "\033[34m----------Multikernel Pipeline----------\033[0m" << endl;
+	cout << endl << "\033[34m----------Multikernel pipeline----------\033[0m" << endl;
 	multiKernelPipeline();
+	cout << endl << "\033[34m----------Max value array----------\033[0m" << endl;
+	maxValue();
 	return 0;
 }

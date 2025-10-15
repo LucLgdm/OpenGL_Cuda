@@ -84,5 +84,11 @@ __global__ void generateIntensity(float *input, int width, int height);
 
 // Atomic operations et warp-synchronous programming
 
+float maxCPU(const std::vector<float>& v);
+__global__ void atomic_way(int *data);
+__global__ void max_block(const float *input, float *maxBlock, int size);
+__inline__ __device__ float warpReduceMax(float val);
+__global__ void max_warp(const float* data, float* blockMax, int size);
+
 
 // Simulation simple avec forces / interactions

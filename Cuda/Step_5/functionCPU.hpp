@@ -3,7 +3,7 @@
 //  PROJECT    : GPU Rendering Playground
 //  AUTHOR     : Luc <lucdemercey@gmail.com>
 //  CREATED    : 2025-10-09
-//  UPDATED    : 2025-10-10
+//  UPDATED    : 2025-10-15
 //  DESCRIPTION: Step 5 Cuda - methods declaration
 // ============================================================================
 
@@ -20,3 +20,4 @@ void scan();
 void histogramme();
 void pipeline();
 void multiKernelPipeline();
+void maxValue();

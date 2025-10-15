@@ -10,11 +10,12 @@
 # Compiler
 NVCC = nvcc
 
-# Flags (tu peux ajouter -G pour le debug, -O2 pour l'optimisation)
-FLAGS = -arch=sm_50
+# Flags (-G pour le debug, -O2 pour l'optimisation)
+FLAGS = -arch=native
+# FLAGS = -arch=sm_50
 
 # Source files
-SRC = main.cpp reduction.cu scan.cu histogramme.cu Convolution.cu multikernel.cu
+SRC = main.cpp reduction.cu scan.cu histogramme.cu Convolution.cu multikernel.cu atomic_Warp.cu
 
 # Output executable
 NAME = Step_5

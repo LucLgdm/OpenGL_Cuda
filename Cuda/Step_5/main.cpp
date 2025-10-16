@@ -2,8 +2,8 @@
 //  FILENAME   : main.cpp
 //  PROJECT    : GPU Rendering Playground
 //  AUTHOR     : Luc <lucdemercey@gmail.com>
-//  CREATED    : 2025-10-09
-//  UPDATED    : 2025-10-15
+//  CREATED    : 2025-10-15
+//  UPDATED    : 2025-10-16
 //  DESCRIPTION: Step 5 Cuda - Going further
 // ============================================================================
 
@@ -22,5 +22,7 @@ int main() {
 	multiKernelPipeline();
 	cout << endl << "\033[34m----------Max value array----------\033[0m" << endl;
 	maxValue();
+	cout << endl << "\033[34m----------Particule system----------\033[0m" << endl;
+	particuleSystem();
 	return 0;
 }

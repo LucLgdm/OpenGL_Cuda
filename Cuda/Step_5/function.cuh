@@ -3,7 +3,7 @@
 //  PROJECT    : GPU Rendering Playground
 //  AUTHOR     : Luc <lucdemercey@gmail.com>
 //  CREATED    : 2025-10-09
-//  UPDATED    : 2025-10-09
+//  UPDATED    : 2025-10-16
 //  DESCRIPTION: Step 5 Cuda - methods declaration
 // ============================================================================
 
@@ -16,6 +16,7 @@ using namespace std;
 #include <cuda_runtime.h>
 
 #define TILE_SIZE 16
+
 
 // Reduction operations
 
@@ -92,3 +93,11 @@ __global__ void max_warp(const float* data, float* blockMax, int size);
 
 
 // Simulation simple avec forces / interactions
+// float2 : fourni par CUDA, pos.x et pos.y, make_float2(float x, float y)
+struct Particle {
+    float2 pos;
+    float2 vel;
+	float m;
+};
+__device__ inline float2 make_float2_device(float x, float y);
+__global__ void updateParticles(Particle* particles, int n, float g, float dt, float eps);

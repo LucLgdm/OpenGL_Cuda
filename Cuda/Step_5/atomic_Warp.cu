@@ -3,7 +3,7 @@
 //  PROJECT    : GPU Rendering Playground
 //  AUTHOR     : Luc <lucdemercey@gmail.com>
 //  CREATED    : 2025-10-15
-//  UPDATED    : 2025-10-15
+//  UPDATED    : 2025-10-16
 //  DESCRIPTIOn: Step 5 Cuda - atomic operation & warp-synchronous programming
 // ============================================================================
 
@@ -76,7 +76,7 @@ void maxValue() {
 		h_data[i] = static_cast<float>(rand()) / RAND_MAX * 100.0f;
 	
 	float maxCPUValue = maxCPU(h_data);
-	std::cout << "Max (CPU) = " << setprecision(6) << maxCPUValue << "\n";
+	std::cout << "\033[33mMax (CPU) :\033[0m " << setprecision(6) << maxCPUValue << "\n";
 
 	float *d_data, *d_result, *d_blockMax;
 	cudaMalloc(&d_data, n * sizeof(float));
@@ -97,7 +97,7 @@ void maxValue() {
 	cudaDeviceSynchronize();
 	float maxAtomic;
 	cudaMemcpy(&maxAtomic, d_result, sizeof(float), cudaMemcpyDeviceToHost);
-	std::cout << "Max (atomic) = " << setprecision(6) << maxAtomic << "\n";
+	std::cout << "\033[33mMax (atomic) :\033[0m " << setprecision(6) << maxAtomic << "\n";
 
 	//---------------------------------------------------------
 	// Shared memory reduction
@@ -106,7 +106,7 @@ void maxValue() {
 	cudaDeviceSynchronize();
 	float maxBlock;
 	cudaMemcpy(&maxBlock, d_result, sizeof(float), cudaMemcpyDeviceToHost);
-	std::cout << "Max (block reduction) = " << setprecision(6) << maxBlock << "\n";
+	std::cout << "\033[33mMax (block reduction) :\033[0m " << setprecision(6) << maxBlock << "\n";
 
 	//---------------------------------------------------------
 	// Warp-synchronous reduction
@@ -115,7 +115,7 @@ void maxValue() {
 	cudaDeviceSynchronize();
 	float maxWarp;
 	cudaMemcpy(&maxWarp, d_result, sizeof(float), cudaMemcpyDeviceToHost);
-	std::cout << "Max (warp reduction) = " << setprecision(6) << maxWarp << "\n";
+	std::cout << "\033[33mMax (warp reduction) :\033[0m " << setprecision(6) << maxWarp << "\n";
 
 	//---------------------------------------------------------
 	// nettoyage

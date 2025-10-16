@@ -15,7 +15,8 @@ FLAGS = -arch=native
 # FLAGS = -arch=sm_50
 
 # Source files
-SRC = main.cpp reduction.cu scan.cu histogramme.cu Convolution.cu multikernel.cu atomic_Warp.cu
+SRC = main.cpp reduction.cu scan.cu histogramme.cu Convolution.cu multikernel.cu \
+		atomic_Warp.cu particule.cu
 
 # Output executable
 NAME = Step_5

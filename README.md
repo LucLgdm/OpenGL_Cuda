@@ -46,10 +46,10 @@ Check tasks as you complete them!
 - [x] 🎨 Step 3 — Transformations (Translation, Rotation, Scaling)
 - [x] 🎨 Step 4 — Textures & UV Mapping
 - [x] 🎨 Step 5 — Camera & Interaction (WASD + Mouse)
-- [ ] 🎨 Step 6 — Lighting & Materials (Phong Shading)
-- [ ] 🎨 Step 7 — 3D Objects & Projection
+- [x] 🎨 Step 6 — Lighting & Materials (Phong Shading)
+- [x] 🎨 Step 7 — 3D Objects & Projection
 
----ew
+---ew= (20.3323
 
 ### ⚡ CUDA (6 steps)
 
@@ -57,8 +57,8 @@ Check tasks as you complete them!
 - [x] 🚀 Step 2 — Vector Addition & Memory Transfers
 - [x] 🚀 Step 3 — 2D Grid / Game of Life on GPU
 - [x] 🚀 Step 4 — Memory Hierarchy & Optimization
-- [ ] 🚀 Step 5 — Advanced Kernels & Synchronization
-- [ ] 🚀 Step 6 — Mini-Project: Particle System or Simulation
+- [x] 🚀 Step 5 — Advanced Kernels & Synchronization
+- [x] 🚀 Step 6 — Mini-Project: Particle System or Simulation
 
 ---
 

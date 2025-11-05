@@ -58,7 +58,7 @@ Check tasks as you complete them!
 - [x] 🚀 Step 3 — 2D Grid / Game of Life on GPU
 - [x] 🚀 Step 4 — Memory Hierarchy & Optimization
 - [x] 🚀 Step 5 — Advanced Kernels & Synchronization
-- [x] 🚀 Step 6 — Mini-Project: Particle System or Simulation
+- [x] 🚀 Step 6 — Mini-Project: Particle System
 
 ---
 

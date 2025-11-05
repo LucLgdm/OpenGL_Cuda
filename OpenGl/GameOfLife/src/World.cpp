@@ -6,7 +6,7 @@
 /*   By: lde-merc <lde-merc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 10:32:35 by lde-merc          #+#    #+#             */
-/*   Updated: 2025/09/11 13:43:45 by lde-merc         ###   ########.fr       */
+/*   Updated: 2025/11/04 15:04:35 by lde-merc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ void parseRLE(const std::string& rle, Grid& grid, int x0 = 0, int y0 = 0) {
 World::World() {
 	string pattern;
 	
-	// pattern =
-	// 	"4b2o6b2o4b$3bobo6bobo3b$3bo10bo3b$2obo10bob2o$2obobo2b2o2bobob2o$3bobo"
-	// 	"bo2bobobo3b$3bobobo2bobobo3b$2obobo2b2o2bobob2o$2obo10bob2o$3bo10bo3b$"
-	// 	"3bobo6bobo3b$4b2o6b2o!";
-	// parseRLE(pattern, _grid, 0, 0);
+	pattern =
+		"4b2o6b2o4b$3bobo6bobo3b$3bo10bo3b$2obo10bob2o$2obobo2b2o2bobob2o$3bobo"
+		"bo2bobobo3b$3bobobo2bobobo3b$2obobo2b2o2bobob2o$2obo10bob2o$3bo10bo3b$"
+		"3bobo6bobo3b$4b2o6b2o!";
+	parseRLE(pattern, _grid, 0, 0);
 
 	// pattern = 
 	// 	"23bo$22bobo$21bobobo$21bo3bo$13b2o4b2ob2ob2o$13bo2bobobo3bo$15b2obo3bo"
@@ -83,13 +83,13 @@ World::World() {
 	// 	"38b2o10b$38bo!";
 	// parseRLE(pattern, _grid, -25, -7);
 
-	pattern = 
-		"bob$2bo$3o!";
-	parseRLE(pattern, _grid, 0, 0);
+	// pattern = 
+	// 	"bob$2bo$3o!";
+	// parseRLE(pattern, _grid, 0, 0);
 
-	pattern = 
-		"10b2o$10bobo$13bo2b2o$11b2obo2bo$10bobob2o$11bo$21b2o$21bo$6bo5b3o4bobo$5bobo3bo3bo3b2o4bo$5b2o3bo5bo7bobo$3b2o5bo5bo7bobo$2bo2b2o3bo5bo6b2ob3o$bobo2bo4bo3bo13bo$o2b2o7b3o8b2ob3o$2o21b2obo$6bob2o21b2o$4b3ob2o8b3o7b2o2bo$3bo13bo3bo4bo2bobo$4b3ob2o6bo5bo3b2o2bo$6bobo7bo5bo5b2o$6bobo7bo5bo3b2o$7bo4b2o3bo3bo3bobo$11bobo4b3o5bo$11bo$10b2o$21bo$17b2obobo$15bo2bob2o$15b2o2bo$20bobo$21b2o!";
-	parseRLE(pattern, _grid, -40, -40);
+	// pattern = 
+	// 	"10b2o$10bobo$13bo2b2o$11b2obo2bo$10bobob2o$11bo$21b2o$21bo$6bo5b3o4bobo$5bobo3bo3bo3b2o4bo$5b2o3bo5bo7bobo$3b2o5bo5bo7bobo$2bo2b2o3bo5bo6b2ob3o$bobo2bo4bo3bo13bo$o2b2o7b3o8b2ob3o$2o21b2obo$6bob2o21b2o$4b3ob2o8b3o7b2o2bo$3bo13bo3bo4bo2bobo$4b3ob2o6bo5bo3b2o2bo$6bobo7bo5bo5b2o$6bobo7bo5bo3b2o$7bo4b2o3bo3bo3bobo$11bobo4b3o5bo$11bo$10b2o$21bo$17b2obobo$15bo2bob2o$15b2o2bo$20bobo$21b2o!";
+	// parseRLE(pattern, _grid, -40, -40);
 }
 
 World::~World() {}

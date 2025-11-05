@@ -3,14 +3,14 @@
 //  PROJECT    : GPU Rendering Playground
 //  AUTHOR     : Luc <lucdemercey@gmail.com>
 //  CREATED    : 2025-09-12
-//  UPDATED    : 2025-09-12
+//  UPDATED    : 2025-11-05
 //  DESCRIPTION: Step 2 Cuda - Vector Addition & Memory Transfers
 // ============================================================================
 
 #include <iostream>
 using namespace std;
 
-#include <cuda_runtime.h>
+ 
 
 __global__ void addVector(const float *A, const float *B, float *C, int N) {
 	int idx = blockIdx.x * blockDim.x + threadIdx.x;

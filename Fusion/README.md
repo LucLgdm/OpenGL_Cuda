@@ -28,7 +28,7 @@ The goal is to leverage the GPU both for **parallel computation** and **real-tim
 - Register an OpenGL texture with CUDA (`cudaGraphicsGLRegisterImage`).
 - Map it to CUDA (`cudaGraphicsMapResources`) to write data.
 - Unmap it and display in OpenGL.
-- **Exercise:** implement Game of Life entirely in CUDA and render as a texture in OpenGL.
+- **Exercise:** implement Ripple effect entirely in CUDA and render as a texture in OpenGL.
 
 ---
 

@@ -14,9 +14,8 @@ NVCC = nvcc
 # === Options ===
 CXXFLAGS = -MMD -std=c++17 -O2 \
 	-Iexternal/glad -Iexternal/KHR -Iexternal/glm -Iexternal/stb
-NVCCFLAGS = -std=c++17 -O2 \
-	-Iexternal/glad -Iexternal/KHR -Iexternal/glm -Iexternal/stb
-LDFLAGS = -lGL -lglfw -ldl -lcuda
+NVCCFLAGS = --arch=sm_50
+LDFLAGS = -lGL -lglfw -ldl 
 
 # Prevent recursive make from printing "Entering/Leaving directory" lines
 MAKEFLAGS += --no-print-directory
